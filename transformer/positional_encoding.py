@@ -10,6 +10,7 @@ from torch.autograd import Variable
 class PositionalEncoding(nn.Module):
     """
     Implement the PE function.
+    位置编码层（https://www.zhihu.com/question/56476625）
     """
 
     def __init__(self, d_model, dropout, max_len=5000):

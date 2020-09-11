@@ -7,6 +7,7 @@ from torch.nn.functional import relu
 class PointerwiseFeedforward(nn.Module):
     """
     Implements FFN equation.
+    前馈神经网络实现。
     """
 
     def __init__(self, d_model, d_ff, dropout=0.1):

@@ -24,7 +24,14 @@ class EncoderDecoder(nn.Module):
         return self.decode(self.encode(src, src_mask), src_mask, tgt, tgt_mask)
 
     def encode(self, src, src_mask):
+        """
+        :param src 对源进行线性嵌入，一种降维手段
+        :param src_mask TODO
+        """
         return self.encoder(self.src_embed(src), src_mask)
 
     def decode(self, memory, src_mask, tgt, tgt_mask):
+        """
+        :param memory 来自encoder的记忆
+        """
         return self.decoder(self.tgt_embed(tgt), memory, src_mask, tgt_mask)

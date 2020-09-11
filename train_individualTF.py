@@ -74,7 +74,7 @@ def main():
     device = torch.device("cuda")
 
     if args.cpu or not torch.cuda.is_available():
-        print("\033[1;31;40m Using cpu... \033[0m")
+        print("\033[1;31;40m Training with cpu... \033[0m")
         device = torch.device("cpu")
 
     args.verbose = True

@@ -12,6 +12,12 @@ class EncoderLayer(nn.Module):
     """
 
     def __init__(self, size, self_attn, feed_forward, dropout):
+        """
+        :param size
+        :param self_attn
+        :param feed_forward
+        :param dropout Dropout arguments
+        """
         super(EncoderLayer, self).__init__()
         self.self_attn = self_attn
         self.feed_forward = feed_forward

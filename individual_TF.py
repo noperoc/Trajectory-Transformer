@@ -17,20 +17,26 @@ from transformer.positional_encoding import PositionalEncoding
 class IndividualTF(nn.Module):
     def __init__(self, enc_inp_size, dec_inp_size, dec_out_size, N=6,
                  d_model=512, d_ff=2048, h=8, dropout=0.1, mean=[0, 0], std=[0, 0]):
+        """
+        :param enc_inp_size Encoder Input Size
+        :param dec_inp_size Decoder Input Size
+        :param dec_out_size Decoder Output Size
+        """
         super(IndividualTF, self).__init__()
         "Helper: Construct a model from hyperparameters."
-        c = copy.deepcopy
+        # 深拷贝alias
+        deepcopy = copy.deepcopy
         attn = MultiHeadAttention(h, d_model)
-        ff = PointerwiseFeedforward(d_model, d_ff, dropout)
-        position = PositionalEncoding(d_model, dropout)
+        ff = PointerwiseFeedforward(d_model, d_ff, dropout)  # 前馈神经网络
+        position = PositionalEncoding(d_model, dropout)  # 进行位置编码
         self.mean = np.array(mean)
         self.std = np.array(std)
         self.model = EncoderDecoder(
-            Encoder(EncoderLayer(d_model, c(attn), c(ff), dropout), N),
-            Decoder(DecoderLayer(d_model, c(attn), c(attn),
-                                 c(ff), dropout), N),
-            nn.Sequential(LinearEmbedding(enc_inp_size, d_model), c(position)),
-            nn.Sequential(LinearEmbedding(dec_inp_size, d_model), c(position)),
+            Encoder(EncoderLayer(d_model, deepcopy(attn), deepcopy(ff), dropout), N),
+            Decoder(DecoderLayer(d_model, deepcopy(attn), deepcopy(attn),
+                                 deepcopy(ff), dropout), N),
+            nn.Sequential(LinearEmbedding(enc_inp_size, d_model), deepcopy(position)),
+            nn.Sequential(LinearEmbedding(dec_inp_size, d_model), deepcopy(position)),
             Generator(d_model, dec_out_size))
 
         # This was important from their code.

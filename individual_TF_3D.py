@@ -4,19 +4,19 @@ import math
 import numpy as np
 import torch.nn as nn
 
-from transformer.decoder import Decoder
-from transformer.decoder_layer import DecoderLayer
-from transformer.encoder import Encoder
-from transformer.encoder_decoder import EncoderDecoder
-from transformer.encoder_layer import EncoderLayer
-from transformer.multihead_attention import MultiHeadAttention
-from transformer.pointerwise_feedforward import PointerwiseFeedforward
-from transformer.positional_encoding import PositionalEncoding
+from transformer_3d.decoder import Decoder
+from transformer_3d.decoder_layer import DecoderLayer
+from transformer_3d.encoder import Encoder
+from transformer_3d.encoder_decoder import EncoderDecoder
+from transformer_3d.encoder_layer import EncoderLayer
+from transformer_3d.multihead_attention import MultiHeadAttention
+from transformer_3d.pointerwise_feedforward import PointerwiseFeedforward
+from transformer_3d.positional_encoding import PositionalEncoding
 
 
 class IndividualTF(nn.Module):
     def __init__(self, enc_inp_size, dec_inp_size, dec_out_size, N=6,
-                 d_model=512, d_ff=2048, h=8, dropout=0.1, mean=[0, 0], std=[0, 0]):
+                 d_model=512, d_ff=2048, h=8, dropout=0.1, mean=[0, 0, 0], std=[0, 0, 0]):
         """
         :param enc_inp_size Encoder Input Size
         :param dec_inp_size Decoder Input Size

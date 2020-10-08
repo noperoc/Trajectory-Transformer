@@ -1,6 +1,8 @@
 .idea/
 .vscode/
+.metals/
 datasets/radar/
+datasets/radar_10_2/
 output/
 models/
 logs/

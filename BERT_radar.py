@@ -9,9 +9,6 @@ import time
 from transformer.batch import subsequent_mask
 from transformer.noam_opt import NoamOpt
 import numpy as np
-import scipy.io
-import json
-import pickle
 
 from torch.utils.tensorboard import SummaryWriter
 
@@ -82,7 +79,7 @@ def main():
     parser.add_argument('--cpu', action='store_true')
     parser.add_argument('--output_folder', type=str, default='Output')
     parser.add_argument('--val_size', type=int, default=50)
-    parser.add_argument('--gpu_device', type=str, default="2")
+    parser.add_argument('--gpu_device', type=str, default="0")
     parser.add_argument('--verbose', action='store_true')
     parser.add_argument('--max_epoch', type=int, default=100)
     parser.add_argument('--batch_size', type=int, default=256)
@@ -132,14 +129,13 @@ def main():
         pass
 
     device = torch.device("cuda")
-    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
     if args.cpu or not torch.cuda.is_available():
         device = torch.device("cpu")
 
     args.verbose = True
 
     ## creation of the dataloaders for train and validation
-    train_dataset, _ = baselineUtils.create_dataset(args.dataset_folder, args.dataset_name, 0, args.obs, args.preds,
+    train_dataset, _ = baselineUtils.create_datase(args.dataset_folder, args.dataset_name, 0, args.obs, args.preds,
                                                     delim=args.delim, train=True, verbose=args.verbose)
     val_dataset, _ = baselineUtils.create_dataset(args.dataset_folder, args.dataset_name, 0, args.obs,
                                                   args.preds, delim=args.delim, train=False,
@@ -147,7 +143,7 @@ def main():
     test_dataset, _ = baselineUtils.create_dataset(args.dataset_folder, args.dataset_name, 0, args.obs, args.preds,
                                                    delim=args.delim, train=False, eval=True, verbose=args.verbose)
 
-    from transformers import BertTokenizer, BertModel, BertForMaskedLM, BertConfig, AdamW
+    from transformers import BertModel, BertConfig
 
     config = BertConfig(vocab_size=30522, hidden_size=768, num_hidden_layers=12, num_attention_heads=12,
                         intermediate_size=3072, hidden_act='relu', hidden_dropout_prob=0.1,

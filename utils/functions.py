@@ -176,7 +176,7 @@ def load_data_of_specific_angle(data_path: str,
 
 def distance_metrics(gt, preds):
     """
-    计算欧氏距离，三维和二维通用
+    计算欧氏距离。计算 FAT 时忽略了两个点之间的高度。
     """
     errors = np.zeros(preds.shape[:-1])
     for i in range(errors.shape[0]):
